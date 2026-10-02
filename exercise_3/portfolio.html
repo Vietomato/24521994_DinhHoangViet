@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio Đinh Hoàng Việt - Full Stack Developer. Exercise 3: Component Architecture & State Modeling">
+  <title>Đinh Hoàng Việt | Portfolio - Exercise 3</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Inline script to prevent FOUC / CLS Theme Flash -->
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {
+        /* Fallback safely if localStorage is restricted */
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- =========================================================================
+       1. HEADER / NAVIGATION & THEME SWITCHER COMPONENT
+       ========================================================================= -->
+  <header class="site-header" id="top">
+    <div class="header-container">
+      <a href="#top" class="site-logo" aria-label="Trang chủ Đinh Hoàng Việt">
+        <span class="logo-badge">&lt;DHV /&gt;</span>
+        <span class="logo-name">Hoang Viet</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Điều hướng chính">
+        <ul class="nav-list">
+          <li><a href="#about" class="nav-link">Giới thiệu</a></li>
+          <li><a href="#skills" class="nav-link">Kỹ năng</a></li>
+          <li><a href="#projects" class="nav-link">Dự án</a></li>
+          <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+        </ul>
+      </nav>
+
+      <!-- Theme Switcher Component -->
+      <div class="theme-control">
+        <button 
+          id="theme-toggle" 
+          class="theme-toggle-btn" 
+          type="button"
+          aria-pressed="false" 
+          aria-label="Chuyển đổi giao diện sáng tối"
+        >
+          <span id="theme-icon" class="theme-icon" aria-hidden="true">🌙</span>
+          <span id="theme-label" class="theme-label">Tối</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================= -->
+  <main class="site-main">
+
+    <!-- =======================================================================
+         2. HERO SECTION COMPONENT
+         ======================================================================= -->
+    <section class="hero-section" id="about" aria-labelledby="hero-name">
+      <div class="hero-container">
+        <div class="hero-avatar-wrapper">
+          <img 
+            src="images/avatar.png" 
+            alt="Ảnh đại diện của Đinh Hoàng Việt" 
+            class="hero-avatar"
+            width="160" 
+            height="160"
+            fetchpriority="high"
+          >
+        </div>
+
+        <div class="hero-content">
+          <p class="hero-greeting">Xin chào, tôi là</p>
+          <h1 id="hero-name" class="hero-name">Đinh Hoàng Việt</h1>
+          <p class="hero-headline">Full Stack Developer &amp; Software Engineering Student</p>
+          <p class="hero-pitch">
+            Sinh viên Đại học Công nghệ Thông tin (UIT - ĐHQG TP.HCM). Tôi đam mê xây dựng các hệ thống web tin cậy, tối ưu hóa kiến trúc vi dịch vụ và mang lại trải nghiệm số trực quan, chuẩn accessibility (WCAG) và hiệu năng cao.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Liên hệ hợp tác</a>
+            <a href="#projects" class="btn btn-secondary">Xem dự án</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         3. SKILLS MATRIX COMPONENT (CSS GRID)
+         ======================================================================= -->
+    <section class="skills-section" id="skills" aria-labelledby="skills-heading">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 id="skills-heading" class="section-title">Kỹ Năng Kỹ Thuật (Skills Matrix)</h2>
+          <p class="section-subtitle">Phân loại năng lực công nghệ theo ma trận danh mục</p>
+        </div>
+
+        <div class="skills-matrix">
+          <!-- Category 1: Frontend -->
+          <div class="skill-category" data-category="frontend">
+            <h3 class="category-title">
+              <span class="category-icon" aria-hidden="true">🎨</span>
+              Frontend
+            </h3>
+            <ul class="badge-list" aria-label="Kỹ năng Frontend">
+              <li class="badge">HTML</li>
+              <li class="badge">CSS</li>
+              <li class="badge">JavaScript</li>
+              <li class="badge">ReactJS</li>
+            </ul>
+          </div>
+
+          <!-- Category 2: Backend -->
+          <div class="skill-category" data-category="backend">
+            <h3 class="category-title">
+              <span class="category-icon" aria-hidden="true">⚙️</span>
+              Backend
+            </h3>
+            <ul class="badge-list" aria-label="Kỹ năng Backend">
+              <li class="badge">Node.js</li>
+              <li class="badge">Java</li>
+              <li class="badge">Python</li>
+              <li class="badge">REST API</li>
+            </ul>
+          </div>
+
+          <!-- Category 3: Database -->
+          <div class="skill-category" data-category="database">
+            <h3 class="category-title">
+              <span class="category-icon" aria-hidden="true">🗄️</span>
+              Database
+            </h3>
+            <ul class="badge-list" aria-label="Kỹ năng Cơ sở dữ liệu">
+              <li class="badge">MySQL</li>
+              <li class="badge">MongoDB</li>
+              <li class="badge">PostgreSQL</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         4. PROJECT CARDS COMPONENT (ARTICLE SEMANTICS)
+         ======================================================================= -->
+    <section class="projects-section" id="projects" aria-labelledby="projects-heading">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 id="projects-heading" class="section-title">Dự Án Tiêu Biểu</h2>
+          <p class="section-subtitle">Các sản phẩm phần mềm độc lập được xây dựng</p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Project Card 1: Badminton E-Commerce -->
+          <article class="project-card" data-category="web">
+            <header class="card-header">
+              <h3 class="project-title">Badminton E-Commerce</h3>
+              <span class="tech-badge" aria-label="Công nghệ sử dụng">ReactJS / Node.js</span>
+            </header>
+            <p class="project-description">
+              Sàn thương mại điện tử chuyên dụng cho dụng cụ cầu lông, tích hợp giỏ hàng thời gian thực, quản lý đơn hàng thông minh và cổng thanh toán bảo mật.
+            </p>
+            <footer class="card-footer">
+              <a href="https://github.com" class="card-link" target="_blank" rel="noopener noreferrer" aria-label="Xem mã nguồn dự án Badminton E-Commerce trên GitHub">
+                View Project &rarr;
+              </a>
+            </footer>
+          </article>
+
+          <!-- Project Card 2: Fake News Detection -->
+          <article class="project-card" data-category="ai">
+            <header class="card-header">
+              <h3 class="project-title">Fake News Detection</h3>
+              <span class="tech-badge" aria-label="Công nghệ sử dụng">Python / GNN</span>
+            </header>
+            <p class="project-description">
+              Hệ thống trí tuệ nhân tạo phát hiện tin giả dựa trên mạng nơ-ron đồ thị (Graph Neural Networks), phân tích độ lan truyền thông tin và phân loại văn bản tin tức chính xác cao.
+            </p>
+            <footer class="card-footer">
+              <a href="https://github.com" class="card-link" target="_blank" rel="noopener noreferrer" aria-label="Xem mã nguồn dự án Fake News Detection trên GitHub">
+                View Project &rarr;
+              </a>
+            </footer>
+          </article>
+
+          <!-- Project Card 3: SOAP Microservices -->
+          <article class="project-card" data-category="backend">
+            <header class="card-header">
+              <h3 class="project-title">SOAP Microservices</h3>
+              <span class="tech-badge" aria-label="Công nghệ sử dụng">Node.js / MongoDB</span>
+            </header>
+            <p class="project-description">
+              Kiến trúc dịch vụ vi mô chuẩn giao thức SOAP/WSDL dành cho tích hợp hệ thống ngân hàng và doanh nghiệp, bảo đảm tính toàn vẹn dữ liệu và độ trễ thấp.
+            </p>
+            <footer class="card-footer">
+              <a href="https://github.com" class="card-link" target="_blank" rel="noopener noreferrer" aria-label="Xem mã nguồn dự án SOAP Microservices trên GitHub">
+                View Project &rarr;
+              </a>
+            </footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         5. CONTACT FORM COMPONENT (NATIVE VALIDATION & STATE MODELING)
+         ======================================================================= -->
+    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="section-container form-container-wrapper">
+        <div class="section-header">
+          <h2 id="contact-heading" class="section-title">Liên Hệ Hợp Tác</h2>
+          <p class="section-subtitle">Gửi lời nhắn trực tiếp tới tôi qua biểu mẫu bên dưới</p>
+        </div>
+
+        <form id="contact-form" class="contact-form" novalidate>
+          <!-- Status Banner for Accessible Feedback -->
+          <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+
+          <!-- Input Name -->
+          <div class="form-group">
+            <label for="name" class="form-label">
+              Họ và tên <span class="required-indicator" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              class="form-input" 
+              placeholder="Nhập họ và tên của bạn" 
+              required 
+              minlength="2" 
+              autocomplete="name"
+            >
+            <span class="field-error" id="name-error" aria-live="polite"></span>
+          </div>
+
+          <!-- Input Email -->
+          <div class="form-group">
+            <label for="email" class="form-label">
+              Địa chỉ Email <span class="required-indicator" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="form-input" 
+              placeholder="tenban@domain.com" 
+              required 
+              autocomplete="email"
+            >
+            <span class="field-error" id="email-error" aria-live="polite"></span>
+          </div>
+
+          <!-- Input Message -->
+          <div class="form-group">
+            <label for="message" class="form-label">
+              Nội dung tin nhắn <span class="required-indicator" aria-hidden="true">*</span>
+            </label>
+            <textarea 
+              id="message" 
+              name="message" 
+              class="form-textarea" 
+              rows="5" 
+              placeholder="Nhập nội dung bạn muốn trao đổi..." 
+              required 
+              minlength="10"
+            ></textarea>
+            <span class="field-error" id="message-error" aria-live="polite"></span>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-actions">
+            <button type="submit" id="submit-btn" class="btn btn-primary btn-submit">
+              <span class="btn-text">Gửi tin nhắn</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       6. FOOTER COMPONENT
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-info">
+        <h3 class="footer-title">Đinh Hoàng Việt</h3>
+        <p class="footer-text">Sinh viên Khoa Kỹ thuật Phần mềm / Công nghệ Thông tin - Trường Đại học Công nghệ Thông tin (UIT).</p>
+      </div>
+
+      <div class="contact-links">
+        <a href="tel:0329596879" class="contact-item" aria-label="Gọi điện thoại đến 0329596879">
+          <span class="contact-icon" aria-hidden="true">📞</span>
+          <span>0329596879</span>
+        </a>
+        <a href="mailto:hoangvietdinh0506@gmail.com" class="contact-item" aria-label="Gửi email đến hoangvietdinh0506@gmail.com">
+          <span class="contact-icon" aria-hidden="true">✉️</span>
+          <span>hoangvietdinh0506@gmail.com</span>
+        </a>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2026 Đinh Hoàng Việt. Lab 01 - Exercise 3: Component Architecture &amp; State Modeling.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script src="script.js"></script>
+</body>
+</html>

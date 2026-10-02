@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Exercise 4: Resilient Component Architecture - The 4-State Resilient Component Contract">
+  <title>Exercise 4: Resilient Component Architecture | Đinh Hoàng Việt</title>
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Early script to avoid FOUC Theme Flash -->
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="#" class="site-logo">
+        <strong>&lt;DHV /&gt;</strong> Resilient Component Engine
+      </a>
+
+      <!-- Theme Switcher -->
+      <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-pressed="false" aria-label="Chuyển đổi sáng tối">
+        <span id="theme-icon" aria-hidden="true">🌙</span>
+        <span id="theme-label">Tối</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Interactive 4-State Controller (For Demonstration & Grading) -->
+  <div class="state-control-bar" role="region" aria-label="Bộ chuyển đổi 4 trạng thái kiểm thử">
+    <div class="state-control-container">
+      <div class="state-label">
+        <span aria-hidden="true">🔄</span>
+        <span>The 4-State Contract Controller:</span>
+      </div>
+      <div class="state-buttons" role="group" aria-label="Chọn trạng thái component">
+        <button type="button" class="state-btn" data-state="loading">1. Loading (Skeleton)</button>
+        <button type="button" class="state-btn active" data-state="live">2. Live Data (Resolved)</button>
+        <button type="button" class="state-btn" data-state="empty">3. Empty State</button>
+        <button type="button" class="state-btn" data-state="error">4. Error State</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="site-main">
+    <section class="section-container" aria-labelledby="section-title">
+      <div class="section-header">
+        <h1 id="section-title" class="section-title">Dự Án Kỹ Thuật (Project Repository)</h1>
+        <p class="section-subtitle">Minh họa kiến trúc chống lỗi 4 trạng thái (4-State Resilient Component Contract)</p>
+      </div>
+
+      <!-- Resilient Container Controlled Dynamically -->
+      <div id="projects-container" aria-live="polite">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Đinh Hoàng Việt (24521994) - Lab 1: Modern Web Foundations &amp; AI-Assisted Engineering (Exercise 4).</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

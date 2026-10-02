@@ -1,0 +1,421 @@
+/* ==========================================================================
+   EXERCISE 4: RESILIENT COMPONENT ARCHITECTURE STYLES
+   Imports: skeleton.css (T-03A)
+   Includes: Design tokens, Layouts, 4-state styles (T-03B, T-03C)
+   ========================================================================== */
+
+@import url("CSS/skeleton.css");
+
+:root {
+  /* Light Theme Variables */
+  --bg-primary: #f4f7fb;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-badge: #e8f0fe;
+  --bg-input: #ffffff;
+
+  --text-primary: #102a43;
+  --text-secondary: #334e68;
+  --text-muted: #627d98;
+  --text-inverse: #ffffff;
+
+  --primary: #0052cc;
+  --primary-hover: #0747a6;
+  --primary-light: #deebff;
+  
+  --border-color: #cbd5e1;
+  --border-card: #d9e2ec;
+  --shadow-sm: 0 2px 4px rgba(9, 30, 66, 0.06);
+  --shadow-md: 0 4px 12px rgba(9, 30, 66, 0.08);
+  --shadow-lg: 0 8px 24px rgba(9, 30, 66, 0.12);
+
+  --status-success-bg: #e3fcef;
+  --status-success-text: #006644;
+  --status-success-border: #abf5d1;
+
+  --status-error-bg: #ffebe6;
+  --status-error-text: #bf2600;
+  --status-error-border: #ffbdad;
+
+  --status-info-bg: #deebff;
+  --status-info-text: #0747a6;
+  --status-info-border: #b3d4ff;
+
+  --skeleton-base: #e2e8f0;
+  --skeleton-shimmer: #f8fafc;
+
+  --focus-ring: #0052cc;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --transition-speed: 0.25s;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Variables */
+  --bg-primary: #0b132b;
+  --bg-surface: #1c2541;
+  --bg-card: #1c2541;
+  --bg-badge: #26365a;
+  --bg-input: #151c33;
+
+  --text-primary: #f0f4f8;
+  --text-secondary: #bcccdc;
+  --text-muted: #829ab1;
+  --text-inverse: #0b132b;
+
+  --primary: #4c9aff;
+  --primary-hover: #68b5ff;
+  --primary-light: #203a60;
+
+  --border-color: #334e68;
+  --border-card: #2e4465;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  --status-success-bg: #1c3829;
+  --status-success-text: #57d9a3;
+  --status-success-border: #215e3c;
+
+  --status-error-bg: #421f1d;
+  --status-error-text: #ff8f73;
+  --status-error-border: #6d2b27;
+
+  --status-info-bg: #1b3052;
+  --status-info-text: #79b8ff;
+  --status-info-border: #2c4e7c;
+
+  --skeleton-base: #1e293b;
+  --skeleton-shimmer: #334155;
+
+  --focus-ring: #68b5ff;
+}
+
+/* Base Universal Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Focus styles for accessibility */
+a:focus-visible, 
+button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.section-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+}
+
+/* Navigation & Header */
+.site-header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  background-color: var(--bg-badge);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   STATE SWITCHER BAR (SIMULATING 4 COMPONENT STATES)
+   ========================================================================== */
+.state-control-bar {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.state-control-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.state-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.state-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.state-btn {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-badge);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.state-btn:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.state-btn.active {
+  background-color: var(--primary);
+  color: var(--text-inverse);
+  border-color: var(--primary);
+}
+
+/* ==========================================================================
+   SUB-TASK T-03B: LIVE DATA STATE (GRID & FLEXBOX BADGES)
+   ========================================================================== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Flexbox Metadata Badges */
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-category {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.badge-tech {
+  background-color: var(--bg-badge);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.project-description {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.card-footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   SUB-TASK T-03C: EMPTY & ERROR STATES
+   ========================================================================== */
+
+/* Empty State Card */
+.resilient-state-box {
+  background-color: var(--bg-card);
+  border: 1px dashed var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.state-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.state-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.state-message {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 440px;
+}
+
+/* Error State & Accessible Retry Trigger */
+.error-state-box {
+  background-color: var(--status-error-bg);
+  border: 1px solid var(--status-error-border);
+}
+
+.error-state-box .state-heading {
+  color: var(--status-error-text);
+}
+
+.btn-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  background-color: var(--primary);
+  color: var(--text-inverse);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-retry:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.site-footer {
+  margin-top: auto;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

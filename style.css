@@ -1,0 +1,275 @@
+/* =========================
+   RESET & GLOBAL
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #1e293b;
+    background: #f4f9fc;
+}
+
+/* =========================
+   SKIP LINK
+========================= */
+
+.skip-link {
+    position: absolute;
+    top: -50px;
+    left: 20px;
+    z-index: 1000;
+
+    padding: 10px 16px;
+    background-color: #075985;
+    color: white;
+
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.skip-link:focus {
+    top: 15px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.profile-header {
+    background: white;
+    text-align: center;
+
+    padding: 45px 20px 35px;
+
+    border-bottom: 4px solid #0284c7;
+
+    box-shadow: 0 3px 12px rgba(7, 89, 133, 0.12);
+}
+
+/* Avatar */
+
+.avatar {
+    width: 150px;
+    height: 150px;
+
+    margin: 0 auto 20px;
+
+    border: 5px solid #0284c7;
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background-color: #e0f2fe;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+/* Name */
+
+.profile-header h1 {
+    margin-bottom: 8px;
+
+    color: #075985;
+
+    font-size: 36px;
+    font-weight: 700;
+}
+
+/* University */
+
+.university {
+    color: #0284c7;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    margin-bottom: 4px;
+}
+
+.major {
+    color: #64748b;
+
+    font-size: 16px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+    width: min(900px, 90%);
+
+    margin: 40px auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* =========================
+   CONTENT SECTIONS
+========================= */
+
+.content-section {
+    background-color: white;
+
+    padding: 28px 32px;
+
+    border-radius: 12px;
+
+    border-left: 5px solid #0284c7;
+
+    box-shadow: 0 4px 15px rgba(7, 89, 133, 0.08);
+}
+
+/* Section title */
+
+.content-section h2 {
+    color: #075985;
+
+    font-size: 27px;
+
+    margin-bottom: 15px;
+
+    padding-bottom: 8px;
+
+    border-bottom: 2px solid #bae6fd;
+}
+
+/* Paragraph */
+
+.content-section p {
+    font-size: 16px;
+
+    margin-bottom: 10px;
+
+    color: #334155;
+}
+
+/* =========================
+   EDUCATION
+========================= */
+
+.education-item {
+    padding: 15px 0;
+}
+
+.education-item h3 {
+    color: #0369a1;
+
+    font-size: 20px;
+
+    margin-bottom: 8px;
+}
+
+.education-item p {
+    margin-bottom: 5px;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+address {
+    font-style: normal;
+}
+
+address p {
+    margin-bottom: 10px;
+}
+
+address strong {
+    color: #075985;
+}
+
+address a {
+    color: #0284c7;
+
+    text-decoration: none;
+
+    font-weight: 500;
+}
+
+address a:hover {
+    text-decoration: underline;
+    color: #075985;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background-color: #075985;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 20px;
+
+    margin-top: 50px;
+}
+
+footer p {
+    font-size: 14px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    .profile-header {
+        padding: 35px 15px 30px;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-header h1 {
+        font-size: 28px;
+    }
+
+    .university {
+        font-size: 17px;
+    }
+
+    main {
+        width: 92%;
+        margin: 25px auto;
+    }
+
+    .content-section {
+        padding: 22px;
+    }
+
+    .content-section h2 {
+        font-size: 23px;
+    }
+}

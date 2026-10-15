@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enterprise Developer Portfolio - Hiệu năng cao, chuẩn WCAG, Zero CLS">
+  <title>Enterprise Developer Portfolio</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="CSS/style.css">
+  
+  <!-- Chống FOUC / CLS Theme Flash: inline script nhỏ đọc sớm localStorage -->
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {
+        /* LocalStorage safe fallback */
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="site-header" id="top">
+    <div class="header-container">
+      <div class="theme-control">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Chuyển đổi giao diện sáng/tối" type="button">
+          <span class="theme-icon" aria-hidden="true">🌓</span>
+          <span class="theme-text">Giao diện</span>
+        </button>
+      </div>
+
+      <div class="profile-summary">
+        <!-- Explicit width/height & aspect-ratio để đảm bảo CLS = 0, fetchpriority high cho LCP < 2s -->
+        <div class="avatar-wrapper">
+          <img 
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' fill='%230052cc'/%3E%3Ccircle cx='80' cy='60' r='32' fill='%23ffffff' opacity='0.9'/%3E%3Cpath d='M30 140 C30 105 50 95 80 95 C110 95 130 105 130 140 Z' fill='%23ffffff' opacity='0.9'/%3E%3C/svg%3E" 
+            alt="Ảnh đại diện của Đinh Hoàng Việt" 
+            class="avatar-img"
+            width="140" 
+            height="140"
+            fetchpriority="high"
+          >
+        </div>
+        <div class="profile-details">
+          <h1 class="dev-name">Đinh Hoàng Việt</h1>
+          <p class="dev-role">Full Stack Developer</p>
+          <p class="dev-goal">
+            <strong>Mục tiêu nghề nghiệp:</strong> Kiến tạo hệ thống doanh nghiệp tin cậy, tối ưu hóa kiến trúc vi dịch vụ (Microservices), đồng thời đảm bảo chuẩn tiếp cận Web Accessibility (WCAG 2.2 AA) và trải nghiệm tải siêu tốc (Core Web Vitals).
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Grid -->
+  <main class="site-main">
+    <div class="main-grid">
+      <!-- Section: Thông tin cá nhân & Học vấn -->
+      <section class="card" aria-labelledby="personal-info-heading">
+        <h2 id="personal-info-heading" class="card-title">Thông Tin Cá Nhân & Học Vấn</h2>
+        <ul class="info-list">
+          <li>
+            <span class="info-label">Ngày sinh:</span>
+            <span class="info-value">02/01/2006</span>
+          </li>
+          <li>
+            <span class="info-label">Trường đại học:</span>
+            <span class="info-value">Trường Đại học Công nghệ Thông tin, ĐHQG-HCM (UIT)</span>
+          </li>
+          <li>
+            <span class="info-label">Chuyên ngành:</span>
+            <span class="info-value">Công nghệ Thông tin / Kỹ thuật Phần mềm</span>
+          </li>
+          <li>
+            <span class="info-label">Vị trí hiện tại:</span>
+            <span class="info-value">Full Stack Developer</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section: Kỹ năng chuyên môn (Skills) -->
+      <section class="card" aria-labelledby="skills-heading">
+        <h2 id="skills-heading" class="card-title">Kỹ Năng Kỹ Thuật (Skills)</h2>
+        <div class="skills-group">
+          <span class="badge">TypeScript / JavaScript</span>
+          <span class="badge">React / Next.js</span>
+          <span class="badge">Node.js / Express</span>
+          <span class="badge">Java / Spring Boot</span>
+          <span class="badge">PostgreSQL & Redis</span>
+          <span class="badge">Docker & Kubernetes</span>
+          <span class="badge">CI/CD & DevOps</span>
+          <span class="badge">Web Performance (CWV)</span>
+        </div>
+      </section>
+
+      <!-- Section: Dự án tiêu biểu (Projects) -->
+      <section class="card card-wide" aria-labelledby="projects-heading">
+        <h2 id="projects-heading" class="card-title">Dự Án Doanh Nghiệp Tiêu Biểu</h2>
+        <div class="projects-list">
+          <article class="project-item">
+            <h3 class="project-name">1. Enterprise Supply Chain Platform</h3>
+            <p class="project-desc">
+              Hệ thống quản lý chuỗi cung ứng tích hợp phân tán, xử lý 10,000+ giao dịch mỗi phút với độ trễ phản hồi sub-100ms.
+            </p>
+            <p class="project-tech"><strong>Công nghệ:</strong> Java Spring Cloud, Kafka, PostgreSQL, Redis, Docker</p>
+          </article>
+
+          <article class="project-item">
+            <h3 class="project-name">2. High-Performance FinTech Portal</h3>
+            <p class="project-desc">
+              Cổng thanh toán và đối soát tài chính nội bộ, đạt điểm tuyệt đối 100/100 Core Web Vitals, bảo mật 2 lớp PCI-DSS compliant.
+            </p>
+            <p class="project-tech"><strong>Công nghệ:</strong> Next.js, Node.js Microservices, Tailwind CSS, Jest</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <h2 class="footer-heading">Thông Tin Liên Hệ</h2>
+      <div class="contact-links">
+        <a href="tel:0329596879" class="contact-item" aria-label="Gọi điện thoại đến số 0329596879">
+          <span class="contact-icon" aria-hidden="true">📞</span>
+          <span>Số điện thoại: <strong>0329596879</strong></span>
+        </a>
+        <a href="mailto:hoangvietdinh0506@gmail.com" class="contact-item" aria-label="Gửi email đến hoangvietdinh0506@gmail.com">
+          <span class="contact-icon" aria-hidden="true">✉️</span>
+          <span>Email: <strong>hoangvietdinh0506@gmail.com</strong></span>
+        </a>
+      </div>
+      <p class="copyright">&copy; 2026 Enterprise Developer Portfolio. Built with Pure CSS & Standards.</p>
+    </div>
+  </footer>
+
+  <!-- Theme Script -->
+  <script src="app.js"></script>
+</body>
+</html>

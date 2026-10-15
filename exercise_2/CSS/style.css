@@ -1,0 +1,385 @@
+/* ==========================================================================
+   DESIGN TOKENS & CSS RESET (SUB-TASK T-02A)
+   Strict Constraint: Colors paired via CSS variables; zero hex codes in rules!
+   WCAG 2.2 AA Contrast Ratio (>= 4.5:1 for normal text, >= 3:1 for UI components)
+   ========================================================================== */
+
+:root {
+  /* Light Theme Color Tokens (Blue & White Palette) */
+  --bg-primary: #f4f7fb;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-badge: #e8f0fe;
+  
+  --text-primary: #102a43;    /* Contrast ratio > 11:1 against #ffffff */
+  --text-secondary: #334e68;  /* Contrast ratio > 7:1 against #ffffff */
+  --text-inverse: #ffffff;
+
+  --primary: #0052cc;         /* Enterprise Blue */
+  --primary-hover: #0747a6;
+  --primary-light: #deebff;
+  
+  --border-color: #cbd5e1;
+  --border-card: #d9e2ec;
+  --shadow-color: rgba(9, 30, 66, 0.08);
+
+  --focus-ring: #0052cc;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Color Tokens */
+  --bg-primary: #0b132b;
+  --bg-surface: #1c2541;
+  --bg-card: #1c2541;
+  --bg-badge: #26365a;
+
+  --text-primary: #f0f4f8;    /* Contrast ratio > 12:1 against #1c2541 */
+  --text-secondary: #bcccdc;  /* Contrast ratio > 7:1 against #1c2541 */
+  --text-inverse: #0b132b;
+
+  --primary: #4c9aff;         /* Accessible vibrant blue for dark mode */
+  --primary-hover: #68b5ff;
+  --primary-light: #203a60;
+
+  --border-color: #334e68;
+  --border-card: #2e4465;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+
+  --focus-ring: #68b5ff;
+}
+
+/* Base Universal Reset for Zero CLS & Predictable Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Accessibility: Keyboard Focus Indicator */
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   HEADER SECTION
+   ========================================================================== */
+.site-header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.5rem 1rem;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.header-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.theme-control {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.profile-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .profile-summary {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+  }
+}
+
+.avatar-wrapper {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--primary);
+  background-color: var(--primary-light);
+  /* Tránh CLS bằng kích thước tuyệt đối */
+  aspect-ratio: 1 / 1;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.profile-details {
+  flex: 1;
+}
+
+.dev-name {
+  font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.25;
+  margin-bottom: 0.35rem;
+}
+
+.dev-role {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.dev-goal {
+  color: var(--text-primary);
+  font-size: 0.975rem;
+}
+
+.dev-goal strong {
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   MAIN 2D GRID LAYOUT (SUB-TASK T-02B)
+   Clean 375px mobile rendering (no horizontal scroll), expands cleanly on tablet/desktop
+   ========================================================================== */
+.site-main {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .main-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-wide {
+    grid-column: span 2;
+  }
+}
+
+/* Card Structure */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px var(--shadow-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 1.2rem;
+  border-bottom: 2px solid var(--primary-light);
+  padding-bottom: 0.4rem;
+}
+
+/* Personal Info List */
+.info-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.info-list li {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+@media (min-width: 480px) {
+  .info-list li {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.info-value {
+  color: var(--text-primary);
+}
+
+/* Skills Badges */
+.skills-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.badge {
+  background-color: var(--bg-badge);
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  display: inline-block;
+}
+
+/* Projects List */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.project-item {
+  padding: 1.2rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+}
+
+.project-name {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.project-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-tech {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   FOOTER SECTION
+   ========================================================================== */
+.site-footer {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  padding: 2rem 1rem;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-heading {
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+@media (min-width: 540px) {
+  .contact-links {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+}
+
+.contact-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  text-decoration: none;
+  border: 1px solid var(--border-color);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  font-size: 0.95rem;
+}
+
+.contact-item:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.copyright {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}

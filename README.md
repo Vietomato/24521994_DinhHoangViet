@@ -4,7 +4,7 @@
 - **Full Name:** Đinh Hoàng Việt
 - **Student ID (MSSV):** 24521994
 - **University:** University of Information Technology, VNU-HCM (UIT)
-- **Class / Major:** Software Engineering / Information Technology
+- **Class / Major:** Information Systems
 - **Repository:** [https://github.com/Vietomato/24521994_DinhHoangViet](https://github.com/Vietomato/24521994_DinhHoangViet)
 
 ---

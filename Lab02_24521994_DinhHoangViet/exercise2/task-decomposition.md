@@ -10,16 +10,16 @@ Commit bắt buộc: `feat(state): implement stateStore and resetCursor engine`
 
 Checklist:
 
-- [ ] Đọc project, Git status/diff và xác định render engine có thể tận dụng.
-- [ ] Tạo state engine bằng closure chứa `stateStore` và cursor; giữ store nội bộ.
-- [ ] Chuẩn bị cơ chế slot cho các hook; cung cấp `resetCursor()` chỉ reset cursor.
-- [ ] Kiểm tra cursor quay về 0 và state không bị xóa qua nhiều lượt reset.
-- [ ] Ghi prompt, file thay đổi và kiểm tra thật vào `prompt-log.md`.
-- [ ] Cung cấp lệnh stage theo file thực tế và commit message bắt buộc để người dùng tự chạy.
+- [x] Đọc project, Git status/diff và xác định render engine có thể tận dụng.
+- [x] Tạo state engine bằng closure chứa `stateStore` và cursor; giữ store nội bộ.
+- [x] Chuẩn bị cơ chế slot cho các hook; cung cấp `resetCursor()` chỉ reset cursor.
+- [x] Kiểm tra cursor quay về 0 và state không bị xóa qua nhiều lượt reset.
+- [x] Ghi prompt, file thay đổi và kiểm tra thật vào `prompt-log.md`.
+- [x] Cung cấp lệnh stage theo file thực tế và commit message bắt buộc để người dùng tự chạy.
 
 Nghiệm thu: store tồn tại qua các lượt render mô phỏng; reset cursor không xóa hoặc tái khởi tạo state. Không triển khai dispatcher, delegation hoặc todo UI ở milestone này.
 
-Kiểm tra: **Not run**. Commit thực tế: **Chưa tạo**.
+Kiểm tra: **Passed** (chạy `node test-milestone1.js`, 27/27 assertions đạt). Commit thực tế: **Chờ người dùng chạy theo lệnh cung cấp**.
 
 ## Milestone 2 — reactive useState dispatcher
 

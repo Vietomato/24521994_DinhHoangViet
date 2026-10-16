@@ -3,55 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini-React VNode Engine - Lab 02</title>
+  <title>Mini-React VNode & Mounting Engine - Lab 02</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <main id="root">
-    <header>
-      <h1>Mini-React VNode Engine (Lab 02)</h1>
-      <p>Mở tab <strong>Console</strong> trong Developer Tools (F12) để kiểm tra các đối tượng VNode được khởi tạo.</p>
-    </header>
-  </main>
+  <!-- Phần tử gốc id="app" để mount giao diện theo yêu cầu -->
+  <div id="app"></div>
 
-  <script type="module">
-    import { createElement, createTextElement, isVNode } from './mini-react.js';
-
-    // 1. Thử nghiệm tạo Text VNode
-    const textVNode = createTextElement("Chào mừng bạn đến với Mini-React!");
-    console.log("1. Text VNode:", textVNode);
-
-    // 2. Thử nghiệm tạo Element VNode đa cấp với mảng lồng nhau và falsy values
-    const pageVNode = createElement(
-      "main",
-      { id: "app-main", className: "container" },
-      createElement("header", null, "Tiêu đề trang"),
-      createElement(
-        "section",
-        { id: "content" },
-        "Đoạn văn bản giới thiệu",
-        12345, // số nguyên thủy -> tự chuyển thành Text VNode
-        null,  // null -> tự lọc bỏ
-        undefined, // undefined -> tự lọc bỏ
-        false, // boolean -> tự lọc bỏ
-        [
-          createElement("button", { type: "button" }, "Nút bấm 1"),
-          [createElement("button", { type: "button" }, "Nút bấm 2 (lồng mảng)")]
-        ]
-      )
-    );
-    console.log("2. Element VNode hoàn chỉnh:", pageVNode);
-
-    // 3. Thử nghiệm kiểm tra Type Guard
-    console.log("3. isVNode(pageVNode):", isVNode(pageVNode)); // true
-    console.log("3. isVNode({ foo: 'bar' }):", isVNode({ foo: "bar" })); // false
-
-    // 4. Thử nghiệm ném TypeError với object không hợp lệ
-    try {
-      createElement("section", null, { invalid: "object" });
-    } catch (error) {
-      console.log("4. Bắt lỗi TypeError thành công khi child là object không hợp lệ:", error.message);
-    }
-  </script>
+  <!-- Nạp test runner bằng script type="module" -->
+  <script type="module" src="./test-runner.js"></script>
 </body>
 </html>
-

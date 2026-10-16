@@ -1,6 +1,6 @@
 /**
  * Mini-React Virtual DOM Engine
- * Module: VNode Creation Factory
+ * Module: VNode Creation Factory & DOM Mounting Engine
  */
 
 /**
@@ -86,3 +86,82 @@ export function createElement(type, props, ...children) {
   };
 }
 
+/**
+ * Chuyển đổi một VNode (và toàn bộ cây con) thành Real DOM Node.
+ *
+ * @param {object} vnode - Virtual DOM node cần render
+ * @returns {Node} Real DOM node đã được tạo (HTMLElement hoặc Text)
+ * @throws {TypeError} Khi vnode không phải là VNode hợp lệ, hoặc event handler không phải là function
+ */
+export function renderToDOM(vnode) {
+  // 1. Kiểm tra VNode trước khi xử lý
+  if (!isVNode(vnode)) {
+    const details = typeof vnode === "object" ? JSON.stringify(vnode) : String(vnode);
+    throw new TypeError(
+      `[mini-react] Invalid VNode: renderToDOM expects a valid VNode object, but received: ${details}`
+    );
+  }
+
+  // 2. Dùng document.createTextNode cho text VNode (miễn nhiễm hoàn toàn với XSS)
+  if (vnode.type === "TEXT_ELEMENT") {
+    return document.createTextNode(vnode.props.nodeValue);
+  }
+
+  // 3. Dùng document.createElement cho element VNode (không tạo wrapper thừa)
+  const dom = document.createElement(vnode.type);
+
+  // 4. Duyệt các props và ánh xạ sang thuộc tính/sự kiện của Real DOM
+  for (const [key, value] of Object.entries(vnode.props)) {
+    // Không gán children thành thuộc tính HTML
+    if (key === "children") {
+      continue;
+    }
+
+    // Hỗ trợ sự kiện (bắt đầu bằng "on", ví dụ onClick, onInput)
+    if (key.startsWith("on")) {
+      const eventType = key.slice(2).toLowerCase();
+      // Yêu cầu: Event handler phải là function
+      if (typeof value !== "function") {
+        throw new TypeError(
+          `[mini-react] Expected event handler for prop '${key}' to be a function, but received: ${typeof value}`
+        );
+      }
+      dom.addEventListener(eventType, value);
+      continue;
+    }
+
+    // Chuyển className thành thuộc tính class
+    if (key === "className" || key === "class") {
+      if (value != null && value !== false) {
+        dom.setAttribute("class", String(value));
+      }
+      continue;
+    }
+
+    // Hỗ trợ thuộc tính style (dạng chuỗi hoặc object)
+    if (key === "style") {
+      if (typeof value === "string") {
+        dom.setAttribute("style", value);
+      } else if (typeof value === "object" && value !== null) {
+        Object.assign(dom.style, value);
+      }
+      continue;
+    }
+
+    // Xử lý các thuộc tính HTML thông thường khác
+    if (value === true) {
+      dom.setAttribute(key, "");
+    } else if (value !== false && value != null) {
+      dom.setAttribute(key, String(value));
+    }
+  }
+
+  // 5. Render các phần tử con bằng đệ quy (tuyệt đối không dùng innerHTML)
+  for (const child of vnode.props.children) {
+    const childDOM = renderToDOM(child);
+    dom.appendChild(childDOM);
+  }
+
+  // 6. Trả về DOM node để bên gọi tự mount vào vị trí mong muốn
+  return dom;
+}

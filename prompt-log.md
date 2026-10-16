@@ -18,3 +18,4 @@ Mục tiêu: Xây dựng mini Virtual DOM engine (VNode creation & mounting) b�
     4. Ràng buộc ngữ nghĩa HTML và an toàn bảo mật (phòng chống XSS, cấm `innerHTML`).
     5. Quy trình kiểm thử với DevTools, unit tests trên `test-runner.js`, quản lý mã nguồn bằng Git và ghi log.
 - **Kết quả**: Đã tạo thành công [`rule.md`](./rule.md).
+

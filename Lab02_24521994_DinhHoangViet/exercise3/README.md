@@ -105,3 +105,4 @@ node Lab02_24521994_DinhHoangViet/exercise3/test-scenarios.js
    - Chọn **"Thất bại (503 Error)"** và bấm **"Load Data"** để quan sát hộp lỗi và nút Retry.
    - Chọn lại **"Thành công (200 OK)"** và bấm **"Retry Connection"** để kiểm tra tính tự phục hồi.
    - Bấm **"⚡ Thử nghiệm Race Condition"** để chứng kiến Request B đè bẹp Request A trễ theo đúng cơ chế sequence ID.
+

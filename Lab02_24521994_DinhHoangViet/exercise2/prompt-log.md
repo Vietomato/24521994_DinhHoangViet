@@ -145,10 +145,90 @@ Kết quả: 27/27 assertions đạt (**Passed**), cụ thể:
 ### Commit liên quan
 
 - Commit bắt buộc theo kế hoạch: `feat(state): implement stateStore and resetCursor engine`
+- Commit thực tế: `72757d8 feat(state): implement stateStore and resetCursor engine` (do người dùng thực hiện sau khi nghiệm thu kiểm thử).
+
+---
+
+## P003 — Milestone 2: reactive useState dispatcher
+
+Ngày: 2026-10-17 (Asia/Saigon).
+
+### Prompt nguyên văn
+
+```text
+Thực hiện milestone 2 trên code hiện tại.
+
+Triển khai custom useState(initialValue) trả về [value, setter].
+
+Yêu cầu:
+- Mỗi lần gọi useState dùng một slot theo cursor.
+- Chỉ khởi tạo initialValue khi slot chưa tồn tại.
+- Setter phải capture đúng slot của chính nó.
+- Hỗ trợ setter(newValue) và setter(previous => next).
+- Setter cập nhật state rồi kích hoạt render lại.
+- Reset cursor trước mỗi render.
+- Hai state tasks và filter phải hoạt động độc lập.
+- Export useState và renderApp từ reactive-engine.js.
+- Không dùng React.
+
+Tạo cách kiểm tra tối thiểu cho:
+1. State tồn tại sau render lại.
+2. Cập nhật tasks không làm thay đổi filter.
+3. Functional updater hoạt động.
+4. Setter của lần render cũ vẫn cập nhật đúng slot.
+
+Cập nhật tài liệu và prompt-log theo kết quả thực tế.
+Liệt kê các file cần stage, chưa triển khai milestone 3.
+```
+
+### Yêu cầu
+
+1. Đọc `rule.md` và `task-decomposition.md`.
+2. Triển khai custom hook `useState(initialValue)` trả về `[value, setter]`.
+3. Quản lý slot độc lập theo `cursor`, chỉ nạp `initialValue` khi slot chưa tồn tại.
+4. Setter capture cố định chỉ số `slotIndex` trong closure của lần gọi hook, không phụ thuộc vào cursor lúc chạy.
+5. Setter hỗ trợ cả giá trị trực tiếp và updater function `setter(prev => next)`.
+6. Setter cập nhật `stateStore` trước khi kích hoạt `dispatchRender()`.
+7. `dispatchRender()` tự động gọi `resetCursor()` trước khi thực thi component render.
+8. Hai state `tasks` và `filter` hoạt động độc lập, không ảnh hưởng lẫn nhau.
+9. Export trực tiếp `useState` và `renderApp` từ `reactive-engine.js`.
+10. Tích hợp chính sách `Object.is` tránh render thừa khi state không đổi.
+11. Không dùng React hay thư viện bên ngoài.
+12. Viết bộ kiểm thử độc lập xác nhận 4 yêu cầu kiểm tra cốt lõi và các trường hợp biên.
+13. Cập nhật `task-decomposition.md` và `prompt-log.md`.
+14. Liệt kê các file cần stage, dừng lại không tự commit và chưa triển khai Milestone 3.
+
+### File thay đổi
+
+| File | Thay đổi |
+| --- | --- |
+| `reactive-engine.js` | Mở rộng: Triển khai `useState`, `dispatchRender`, `renderApp`, `onRender`, kết nối render engine từ `exercise1/mini-react.js`, export trực tiếp `useState` và `renderApp`. |
+| `test-milestone2.js` | Tạo mới: Bộ kiểm thử độc lập 7 ca thử nghiệm với 31 assertions cho Milestone 2. |
+| `task-decomposition.md` | Cập nhật commit Milestone 1 (`72757d8`), đánh dấu checklist và kết quả kiểm tra Passed cho Milestone 2. |
+| `prompt-log.md` | Cập nhật commit hash P002 và bổ sung nhật ký chi tiết P003. |
+
+### Kết quả kiểm tra
+
+Chạy lệnh kiểm thử tự động: `node test-milestone2.js`
+Kết quả: 31/31 assertions đạt (**Passed**), cụ thể:
+1. `Test 1 (State tồn tại sau render lại)`: Giá trị ban đầu = 10, sau khi gọi setter cập nhật = 25 và tự kích hoạt re-render. Các lần re-render tiếp theo không bị reset về 10.
+2. `Test 2 (Cập nhật tasks không làm thay đổi filter)`: Thêm task mới vào slot 0 (`tasks`), slot 1 (`filter`) vẫn giữ nguyên `'all'`. Cập nhật `filter` sang `'completed'`, `tasks` vẫn giữ nguyên 3 phần tử. Hai slot hoàn toàn độc lập.
+3. `Test 3 (Functional updater)`: Hai functional updater liên tiếp `setCount(prev => prev + 5)` và `setCount(prev => prev + 3)` đều nhận đúng state mới nhất, kết quả = 8.
+4. `Test 4 (Setter của lần render cũ)`: Setter được lưu lại từ render lượt 1 vẫn cập nhật chính xác vào slot 0 và slot 1 mà nó đã capture, không bị lẫn slot dù đã qua nhiều chu kỳ render.
+5. `Test 5 (Bảo toàn falsy values)`: Các giá trị `false`, `0`, `""`, `null`, `undefined` được bảo toàn nguyên vẹn qua các chu kỳ re-render.
+6. `Test 6 (Chính sách Object.is)`: Gọi setter với giá trị giống hệt giá trị hiện tại không kích hoạt re-render thừa. Chỉ kích hoạt khi giá trị thực sự thay đổi.
+7. `Test 7 (Export trực tiếp useState và renderApp)`: Instance mặc định xuất trực tiếp `useState` và `renderApp` hoạt động chính xác và tự động cập nhật UI.
+
+Ngoài ra, chạy lại `node test-milestone1.js` đạt 27/27 assertions, đảm bảo không có hồi quy mã nguồn.
+
+### Commit liên quan
+
+- Commit bắt buộc theo kế hoạch: `feat(state): implement reactive useState dispatcher`
 - Trạng thái: Chưa commit (tuân thủ quy tắc không tự ý commit mã nguồn, cung cấp lệnh cho người dùng kiểm tra và tự thực thi).
-- Danh sách file thực tế thuộc Milestone 1 cần stage:
+- Danh sách file thực tế thuộc Milestone 2 cần stage:
   - `reactive-engine.js`
-  - `test-milestone1.js`
+  - `test-milestone2.js`
   - `task-decomposition.md`
   - `prompt-log.md`
+
 

@@ -19,7 +19,7 @@ Checklist:
 
 Nghiệm thu: store tồn tại qua các lượt render mô phỏng; reset cursor không xóa hoặc tái khởi tạo state. Không triển khai dispatcher, delegation hoặc todo UI ở milestone này.
 
-Kiểm tra: **Passed** (chạy `node test-milestone1.js`, 27/27 assertions đạt). Commit thực tế: **Chờ người dùng chạy theo lệnh cung cấp**.
+Kiểm tra: **Passed** (chạy `node test-milestone1.js`, 27/27 assertions đạt). Commit thực tế: `72757d8 feat(state): implement stateStore and resetCursor engine`.
 
 ## Milestone 2 — reactive useState dispatcher
 
@@ -29,17 +29,17 @@ Commit bắt buộc: `feat(state): implement reactive useState dispatcher`
 
 Checklist:
 
-- [ ] Đọc lại hai file quy tắc/kế hoạch và Git status/diff.
-- [ ] Triển khai `useState(initialValue)` trả về `[value, setter]` từ slot theo cursor.
-- [ ] Chỉ khởi tạo slot mới; setter capture slot riêng và hỗ trợ updater function.
-- [ ] Kết nối dispatcher với render engine hiện có hoặc render callback phù hợp; reset cursor trước mỗi render.
-- [ ] Kiểm tra ít nhất hai slot độc lập, setter cũ sau render, falsy state và hai updater liên tiếp sử dụng giá trị mới nhất.
-- [ ] Kiểm tra state thay đổi được render tự động, không cần gọi render từ handler; ghi nhận chính sách giá trị không đổi.
-- [ ] Cập nhật prompt log và cung cấp lệnh commit theo file thực tế.
+- [x] Đọc lại hai file quy tắc/kế hoạch và Git status/diff.
+- [x] Triển khai `useState(initialValue)` trả về `[value, setter]` từ slot theo cursor.
+- [x] Chỉ khởi tạo slot mới; setter capture slot riêng và hỗ trợ updater function.
+- [x] Kết nối dispatcher với render engine hiện có hoặc render callback phù hợp; reset cursor trước mỗi render.
+- [x] Kiểm tra ít nhất hai slot độc lập, setter cũ sau render, falsy state và hai updater liên tiếp sử dụng giá trị mới nhất.
+- [x] Kiểm tra state thay đổi được render tự động, không cần gọi render từ handler; ghi nhận chính sách giá trị không đổi (Object.is).
+- [x] Cập nhật prompt log và cung cấp lệnh commit theo file thực tế.
 
 Nghiệm thu: setter cập nhật đúng slot qua nhiều lượt render; không mất state, không lẫn slot, không render trước khi cập nhật store. Chưa xây dựng todo UI hoặc delegation.
 
-Kiểm tra: **Not run**. Commit thực tế: **Chưa tạo**.
+Kiểm tra: **Passed** (chạy `node test-milestone2.js`, 31/31 assertions đạt). Commit thực tế: **Chờ người dùng chạy theo lệnh cung cấp**.
 
 ## Milestone 3 — root event delegation
 

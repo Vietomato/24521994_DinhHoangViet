@@ -1,0 +1,532 @@
+/* ==========================================================================
+   Exercise 3: Resilient State Machine & Skeleton Loader Stylesheet
+   Design Tokens, 4-State Views, Pulse Animation, Zero-CLS Layout
+   ========================================================================== */
+
+:root {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-bg: #eff6ff;
+
+  --color-success: #16a34a;
+  --color-success-bg: #f0fdf4;
+  --color-success-border: #bbf7d0;
+
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-border: #fecaca;
+
+  --skeleton-base: #e2e8f0;
+  --skeleton-pulse: #cbd5e1;
+
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem 1.25rem;
+}
+
+#app {
+  width: 100%;
+  max-width: 760px;
+}
+
+/* Container chính */
+main.feed-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Thanh điều hướng giữa các bài tập */
+nav.lab-nav {
+  display: flex;
+  gap: 0.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 1rem;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+nav.lab-nav .nav-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+}
+
+nav.lab-nav .nav-link:hover {
+  background-color: var(--color-primary-bg);
+}
+
+nav.lab-nav .nav-link.active {
+  background-color: #dbeafe;
+  color: #1e40af;
+  font-weight: 700;
+}
+
+/* Header & Controls */
+header.app-header {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+header.app-header h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  letter-spacing: -0.025em;
+}
+
+header.app-header p.subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.badge-idle {
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+.badge-loading {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-success {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border);
+}
+
+.badge-error {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger-border);
+}
+
+/* Thanh điều khiển (Interactive Controls) */
+.controls-card {
+  background: #f1f5f9;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.control-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  min-width: 170px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.control-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  margin-top: 0.25rem;
+}
+
+/* Nút bấm (Buttons) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text-main);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+  background-color: #f8fafc;
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background-color: var(--color-danger-hover);
+}
+
+.btn-mode {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.btn-mode.active-success {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+  color: var(--color-success);
+  font-weight: 700;
+  box-shadow: 0 0 0 1px var(--color-success);
+}
+
+.btn-mode.active-error {
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+  font-weight: 700;
+  box-shadow: 0 0 0 1px var(--color-danger);
+}
+
+/* Khu vực hiển thị 4 Trạng Thái */
+section.state-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-sm);
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Trạng thái 1: IDLE */
+.state-idle {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.state-idle .state-icon {
+  font-size: 3.5rem;
+}
+
+.state-idle h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.state-idle p {
+  color: var(--color-text-muted);
+  max-width: 480px;
+  font-size: 0.95rem;
+}
+
+.state-idle .btn-load {
+  padding: 0.75rem 1.8rem;
+  font-size: 1rem;
+}
+
+/* Trạng thái 2: LOADING & CSS Pulse Skeleton (Zero CLS) */
+.state-loading {
+  gap: 1.25rem;
+}
+
+.state-loading-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.75rem;
+}
+
+.state-loading-header h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.loading-indicator {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+}
+
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* CSS Pulse Animation cho Skeleton */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    background-color: var(--skeleton-base);
+  }
+  50% {
+    opacity: 0.45;
+    background-color: var(--skeleton-pulse);
+  }
+  100% {
+    opacity: 1;
+    background-color: var(--skeleton-base);
+  }
+}
+
+.pulse {
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+/* Hỗ trợ prefers-reduced-motion theo yêu cầu */
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none !important;
+    opacity: 0.8 !important;
+  }
+}
+
+.skeleton-card {
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 96px; /* Bằng đúng chiều cao thẻ thật để Zero CLS */
+}
+
+.skeleton-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.skeleton-line {
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-title {
+  width: 60%;
+  height: 18px;
+}
+
+.skeleton-badge {
+  width: 70px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.skeleton-meta {
+  width: 30%;
+  height: 14px;
+}
+
+/* Trạng thái 3: SUCCESS (Dữ liệu thực tế) */
+.state-success {
+  gap: 1.25rem;
+}
+
+.state-success-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.75rem;
+}
+
+.state-success-header h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.feed-item-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 96px; /* Khớp với skeleton để Zero CLS */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.feed-item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.feed-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.feed-item-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.item-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.item-timestamp {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* Trạng thái 4: ERROR (Thông báo sự cố & Retry Connection) */
+.state-error {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+.state-error .error-icon {
+  font-size: 3.5rem;
+}
+
+.state-error h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-danger);
+}
+
+.error-banner {
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  color: var(--color-danger-text);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  max-width: 520px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.state-error .btn-retry {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Footer */
+footer.app-footer {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  padding: 1rem 0;
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 2 - Exercise 2: Root Event Delegation & Reactive State</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0284c7;
+      --border: #334155;
+      --success: #4ade80;
+    }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      margin: 0;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .container {
+      width: 100%;
+      max-width: 680px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+    h1 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    p {
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .metric-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--success);
+    }
+    .metric-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    button {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--primary);
+      color: #0f172a;
+      border: none;
+      padding: 0.85rem 1.25rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover {
+      background: var(--primary-hover);
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    .btn-secondary {
+      background: #334155;
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      background: #475569;
+    }
+    .badge {
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+    }
+    .devtools-guide {
+      margin-top: 2rem;
+      padding: 1.25rem;
+      background: rgba(15, 23, 42, 0.8);
+      border-left: 4px solid var(--primary);
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .devtools-guide h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    code {
+      background: rgba(0, 0, 0, 0.5);
+      color: #f43f5e;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Milestone 3: Root Event Delegation Test Bench</h1>
+    <p>Kiểm tra cơ chế phân phối sự kiện tập trung tại root element theo kiến trúc Reactive Mini-Engine.</p>
+
+    <!-- Root container duy nhất gắn delegation listener -->
+    <div id="root"></div>
+
+    <div class="devtools-guide">
+      <h3>🔍 Hướng dẫn kiểm tra bằng DevTools</h3>
+      <ol>
+        <li><strong>Kiểm tra listener tại Root:</strong>
+          <br>Mở tab <em>Elements</em>, chọn <code>&lt;div id="root"&gt;</code>, mở tab <em>Event Listeners</em> ở góc phải &rarr; Có đúng 1 listener <code>click</code>.
+        </li>
+        <li><strong>Kiểm tra Button & Span con:</strong>
+          <br>Chọn <code>&lt;button id="test-btn"&gt;</code> hoặc <code>&lt;span id="inner-span"&gt;</code>, bỏ tick <em>Ancestors</em> trong tab <em>Event Listeners</em> &rarr; <strong>Không có bất kỳ listener nào</strong> được gắn trực tiếp.
+        </li>
+        <li><strong>Kiểm tra bằng Console:</strong>
+          <br><code>getEventListeners(document.getElementById('root'))</code> &rarr; <code>{ click: [...] }</code>
+          <br><code>getEventListeners(document.querySelector('#test-btn'))</code> &rarr; <code>{}</code> (Rỗng)
+          <br><code>getEventListeners(document.querySelector('#inner-span'))</code> &rarr; <code>{}</code> (Rỗng)
+        </li>
+        <li><strong>Một click = Một lần cập nhật:</strong>
+          <br>Click vào icon hoặc chữ <code>&lt;span&gt;</code> bên trong button &rarr; Click Counter tăng đúng 1 đơn vị, bất kể ứng dụng đã qua bao nhiêu lần re-render.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <script type="module">
+    import { renderApp, useState, createElement } from "./reactive-engine.js";
+
+    function TestApp() {
+      const [clickCount, setClickCount] = useState(0);
+      const [forceRenderCount, setForceRenderCount] = useState(0);
+
+      return createElement(
+        "div",
+        { className: "app-wrapper" },
+        createElement(
+          "div",
+          { className: "metrics" },
+          createElement(
+            "div",
+            { className: "metric-card" },
+            createElement("div", { className: "metric-value" }, clickCount),
+            createElement("div", { className: "metric-label" }, "Số lần click hợp lệ")
+          ),
+          createElement(
+            "div",
+            { className: "metric-card" },
+            createElement("div", { className: "metric-value" }, forceRenderCount),
+            createElement("div", { className: "metric-label" }, "Số lần ép Re-render")
+          )
+        ),
+        createElement(
+          "div",
+          { className: "btn-group" },
+          createElement(
+            "button",
+            {
+              id: "test-btn",
+              onClick: () => setClickCount(prev => prev + 1)
+            },
+            createElement("span", { id: "inner-icon" }, "⚡"),
+            createElement("span", { id: "inner-span" }, "Bấm vào Span này")
+          ),
+          createElement(
+            "button",
+            {
+              id: "render-btn",
+              className: "btn-secondary",
+              onClick: () => setForceRenderCount(prev => prev + 1)
+            },
+            createElement("span", {}, "🔄 Ép Re-render")
+          )
+        )
+      );
+    }
+
+    // Mount ứng dụng vào root container
+    const rootElement = document.getElementById("root");
+    renderApp(TestApp, rootElement);
+  </script>
+</body>
+</html>
+

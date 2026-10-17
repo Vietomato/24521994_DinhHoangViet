@@ -39,7 +39,7 @@ Checklist:
 
 Nghiệm thu: setter cập nhật đúng slot qua nhiều lượt render; không mất state, không lẫn slot, không render trước khi cập nhật store. Chưa xây dựng todo UI hoặc delegation.
 
-Kiểm tra: **Passed** (chạy `node test-milestone2.js`, 31/31 assertions đạt). Commit thực tế: **Chờ người dùng chạy theo lệnh cung cấp**.
+Kiểm tra: **Passed** (chạy `node test-milestone2.js`, 31/31 assertions đạt). Commit thực tế: `2866b8f feat(state): implement reactive useState dispatcher`.
 
 ## Milestone 3 — root event delegation
 
@@ -49,17 +49,17 @@ Commit bắt buộc: `feat(events): attach root event delegation listener`
 
 Checklist:
 
-- [ ] Đọc lại hai file quy tắc/kế hoạch và Git status/diff.
-- [ ] Xác định root ổn định; attach một lần cho mỗi loại event cần thiết bên ngoài render.
-- [ ] Phân phối event qua action và task ID; tìm target bằng `closest()` và giới hạn trong root.
-- [ ] Thiết kế handler nhận state mới nhất và gọi setter, không sửa DOM để cập nhật task.
-- [ ] Kiểm tra phần tử được tạo động, bấm phần tử con trong nút, action không hợp lệ và event ngoài root.
-- [ ] Kiểm tra sau nhiều lượt render một event chỉ gọi handler một lần; dùng fixture tối thiểu khi UI chưa được lắp ráp.
-- [ ] Cập nhật prompt log và cung cấp lệnh commit theo file thực tế.
+- [x] Đọc lại hai file quy tắc/kế hoạch và Git status/diff.
+- [x] Xác định root ổn định; attach một lần cho mỗi loại event cần thiết bên ngoài render.
+- [x] Phân phối event qua action và task ID; tìm target bằng `closest()` và giới hạn trong root.
+- [x] Thiết kế handler nhận state mới nhất và gọi setter, không sửa DOM để cập nhật task.
+- [x] Kiểm tra phần tử được tạo động, bấm phần tử con trong nút, action không hợp lệ và event ngoài root.
+- [x] Kiểm tra sau nhiều lượt render một event chỉ gọi handler một lần; dùng fixture tối thiểu khi UI chưa được lắp ráp.
+- [x] Cập nhật prompt log và cung cấp lệnh commit theo file thực tế.
 
 Nghiệm thu: delegation vẫn hoạt động khi thay nội dung bên trong root, không tạo listener trùng và không phụ thuộc listener trên từng task. Chưa lắp ráp ứng dụng todo hoàn chỉnh.
 
-Kiểm tra: **Not run**. Commit thực tế: **Chưa tạo**.
+Kiểm tra: **Passed** (chạy `node test-milestone3.js`, 19/19 assertions đạt; cung cấp test bench `index.html` kiểm tra qua DevTools). Commit thực tế: **Chờ người dùng chạy theo lệnh cung cấp**.
 
 ## Milestone 4 — reactive todo application
 

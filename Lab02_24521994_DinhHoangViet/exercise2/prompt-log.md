@@ -224,11 +224,87 @@ Ngoài ra, chạy lại `node test-milestone1.js` đạt 27/27 assertions, đả
 ### Commit liên quan
 
 - Commit bắt buộc theo kế hoạch: `feat(state): implement reactive useState dispatcher`
+- Commit thực tế: `2866b8f feat(state): implement reactive useState dispatcher` (do người dùng thực hiện sau khi nghiệm thu kiểm thử).
+
+---
+
+## P004 — Milestone 3: root event delegation
+
+Ngày: 2026-10-17 (Asia/Saigon).
+
+### Prompt nguyên văn
+
+```text
+Thực hiện milestone 3: tích hợp root event delegation vào renderer.
+
+Yêu cầu:
+- Với các tương tác hiện tại, chỉ đăng ký một native listener
+  cho mỗi loại sự kiện cần dùng tại root.
+- Không gắn native event listener hoặc inline HTML handler
+  trực tiếp lên button và các phần tử con.
+- Renderer lưu và cập nhật handler để root dispatcher gọi được.
+- Khi click span bên trong button vẫn tìm được handler của button.
+- Render lại nhiều lần không tạo listener trùng.
+- Không gọi handler cũ của node đã bị thay thế.
+
+Cung cấp cách kiểm tra bằng DevTools:
+- Listener được gắn tại root.
+- Button và span con không có native listener trực tiếp.
+- Một click chỉ gây một lần cập nhật sau nhiều lần render.
+
+Cập nhật task-decomposition.md và prompt-log.md.
+Liệt kê các file cần stage và dừng sau milestone này.
+```
+
+### Yêu cầu
+
+1. Đọc lại `rule.md` và `task-decomposition.md`.
+2. Tích hợp cơ chế Root Event Delegation vào `reactive-engine.js`:
+   - Chỉ đăng ký đúng 1 native listener cho mỗi loại sự kiện (click, input,...) tại root container.
+   - Tuyệt đối không gắn `dom.addEventListener` hay thuộc tính inline `onclick` trực tiếp lên button và các phần tử con.
+   - Renderer lưu và cập nhật handlers qua `WeakMap<Node, Handlers>`.
+   - Dispatcher tại root duyệt ngược từ `event.target` lên root (event bubbling), đảm bảo click vào `<span>` lồng trong `<button>` vẫn kích hoạt chính xác handler của button.
+   - Bắt buộc kiểm tra `rootContainer.contains(event.target)` để không gọi handler cũ của node đã bị thay thế hoặc gỡ khỏi DOM.
+   - Re-render nhiều lần không nhân bản hoặc đăng ký trùng listener tại root.
+3. Tạo test bench `index.html` và cung cấp quy trình kiểm tra cụ thể bằng DevTools.
+4. Viết bộ kiểm thử độc lập `test-milestone3.js` với 19 assertions bao phủ toàn bộ các yêu cầu.
+5. Cập nhật `task-decomposition.md` và `prompt-log.md`.
+6. Liệt kê các file cần stage và dừng lại không tự ý commit, chưa triển khai Milestone 4.
+
+### File thay đổi
+
+| File | Thay đổi |
+| --- | --- |
+| `reactive-engine.js` | Tích hợp Root Event Delegation: `renderToDOM` delegation-aware lưu handler qua `WeakMap`, `dispatchRootEvent` mô phỏng bubbling và kiểm tra `contains`, `ensureRootListener` đăng ký duy nhất 1 lần tại root. |
+| `test-milestone3.js` | Tạo mới: Bộ kiểm thử độc lập 4 ca thử nghiệm với 19 assertions cho Milestone 3. |
+| `index.html` | Tạo mới: Trang test bench giao diện trực quan phục vụ kiểm tra DevTools (Elements panel, Event Listeners, Console). |
+| `task-decomposition.md` | Cập nhật commit Milestone 2 (`2866b8f`), đánh dấu hoàn thành checklist và kết quả kiểm tra Passed cho Milestone 3. |
+| `prompt-log.md` | Cập nhật commit hash P003 và bổ sung toàn bộ nhật ký chi tiết P004. |
+
+### Kết quả kiểm tra
+
+Chạy lệnh kiểm thử tự động: `node test-milestone3.js`
+Kết quả: 19/19 assertions đạt (**Passed**), cụ thể:
+1. `Test 1 (Không gắn native listener trực tiếp)`: Button và 2 thẻ span con có 0 native listener, không có thuộc tính inline `onclick`. Handler được lưu an toàn trong `WeakMap`.
+2. `Test 2 (Chỉ 1 native listener tại root)`: Root chỉ có đúng 1 native click listener sau lần render đầu tiên và vẫn giữ nguyên đúng 1 listener sau 6 lần re-render liên tiếp.
+3. `Test 3 (Click span bên trong button)`: Phát sự kiện click từ `<span>` con, dispatcher duyệt bubbling và kích hoạt thành công handler của `<button>`. `event.target` được bảo toàn.
+4. `Test 4 (Không gọi handler cũ & 1 click = 1 update)`: Click vào node cũ đã bị detached không kích hoạt handler. Click vào node mới chỉ gây đúng 1 lần cập nhật state và re-render duy nhất.
+
+Chạy kiểm tra toàn diện cả 3 milestone:
+- `node test-milestone1.js`: 27/27 assertions đạt.
+- `node test-milestone2.js`: 31/31 assertions đạt.
+- `node test-milestone3.js`: 19/19 assertions đạt.
+
+### Commit liên quan
+
+- Commit bắt buộc theo kế hoạch: `feat(events): attach root event delegation listener`
 - Trạng thái: Chưa commit (tuân thủ quy tắc không tự ý commit mã nguồn, cung cấp lệnh cho người dùng kiểm tra và tự thực thi).
-- Danh sách file thực tế thuộc Milestone 2 cần stage:
+- Danh sách file thực tế thuộc Milestone 3 cần stage:
   - `reactive-engine.js`
-  - `test-milestone2.js`
+  - `test-milestone3.js`
+  - `index.html`
   - `task-decomposition.md`
   - `prompt-log.md`
+
 
 

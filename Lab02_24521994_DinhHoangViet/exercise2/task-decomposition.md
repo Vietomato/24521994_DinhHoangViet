@@ -87,3 +87,31 @@ Kiểm tra: **Not run**. Commit thực tế: **Chưa tạo**.
 ## Cách cung cấp lệnh Git sau mỗi milestone
 
 Chỉ sau khi có project và thay đổi thực tế: nêu cách kiểm tra, liệt kê file thuộc milestone, rồi cung cấp lệnh `git status`, `git diff`, `git add` với từng đường dẫn cụ thể, `git diff --cached` và `git commit -m` với message tương ứng ở trên. Người dùng kiểm tra rồi tự chạy. Không tự đánh dấu đã commit khi chưa có xác nhận/hash thật. Bước tài liệu hiện tại chưa tạo commit và không dùng một trong bốn message triển khai cho công việc chưa làm.
+
+
+---
+
+## Kế hoạch triển khai Exercise 3 (Resilient State Machine & Skeleton Loader)
+
+### 1. Thiết kế State Machine & Enum 4 Trạng thái
+- Định nghĩa enum `DataState = Object.freeze({ IDLE: 'IDLE', LOADING: 'LOADING', SUCCESS: 'SUCCESS', ERROR: 'ERROR' })`.
+- Cấu trúc state: `{ status: DataState, data: null, error: null }`.
+- Kiểm tra: **Not run**.
+
+### 2. Tải Dữ liệu Bất đồng bộ & Cơ chế Chống Race Condition
+- Service tải dữ liệu `fetchDataFeed()` hỗ trợ timeout và mô phỏng lỗi.
+- Quản lý `activeRequestId = ++requestIdCounter`; loại bỏ hoàn toàn các response cũ (out-of-order).
+- Kiểm tra: **Not run**.
+
+### 3. Giao diện 4 Trạng thái & CSS Pulse Skeleton Loader
+- Xây dựng component `DataFeed` chuyển đổi 1:1 theo state:
+  - `IDLE`: Text hướng dẫn + Button tải dữ liệu.
+  - `LOADING`: Skeleton cards kèm CSS animation `@keyframes pulse` (Zero CLS).
+  - `SUCCESS`: Thẻ dữ liệu thực tế.
+  - `ERROR`: Thông báo lỗi + Nút "Retry Connection".
+- Kiểm tra: **Not run**.
+
+### 4. Kiểm thử Tự động, Thanh tra DevTools & Minh chứng
+- Unit test suite kiểm tra chuyển dịch 4 state và kịch bản Race Condition.
+- Kịch bản chụp 4 ảnh minh chứng DevTools (Elements & Console).
+- Kiểm tra: **Not run**.

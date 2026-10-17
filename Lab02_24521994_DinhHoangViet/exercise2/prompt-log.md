@@ -308,3 +308,65 @@ Chạy kiểm tra toàn diện cả 3 milestone:
 
 
 
+
+
+---
+
+## Ex3 — P001: Resilient State Machine & Skeleton Loader (Chuẩn Bị Tài Liệu)
+
+Ngày ghi nhận: 2026-10-17 (Asia/Saigon).
+
+### Prompt Nguyên Văn
+
+```text
+Tôi cần làm về Resilient State Machine & Skeleton Loader dựa file trên ex2.
+Yêu cầu:
+- Xây dựng component DataFeed tải dữ liệu bất đồng bộ.
+- State chỉ có 4 trạng thái: IDLE, LOADING, SUCCESS, ERROR.
+- IDLE: hướng dẫn người dùng bấm tải dữ liệu.
+- LOADING: hiển thị skeleton có animation CSS dạng pulse.
+- SUCCESS: hiển thị dữ liệu.
+- ERROR: hiển thị thông báo dễ hiểu và nút "Retry Connection".
+- Xử lý race condition: request cũ không được ghi đè request mới.
+- Giao diện luôn tương ứng với trạng thái hiện tại.
+Project là JavaScript,nên dùng object tương đương và JSDoc;
+không chuyển toàn bộ project sang TypeScript chỉ vì bài này.
+
+Trước tiên chỉ cập nhật tài liệu bằng tiếng Việt, encoding UTF-8:
+1. rule.md: thêm quy tắc riêng cho Ex3.
+2. task-decomposition.md: thêm kế hoạch Ex3 gồm:
+   thiết kế state, tải dữ liệu và chống race condition,
+   giao diện 4 trạng thái, kiểm tra và minh chứng.
+3. prompt-log.md: ghi nguyên văn prompt này vào mục Ex3.
+
+Giữ nội dung Ex2.
+Chưa viết code ở bước này.
+Không tự ghi kết quả Passed nếu chưa chạy kiểm tra.
+Không tự commit.
+```
+
+### Phân Tích Yêu Cầu
+
+1. Cập nhật tài liệu kỹ thuật riêng cho Exercise 3 dựa trên nền tảng Exercise 2.
+2. Thiết kế máy trạng thái hữu hạn 4 trạng thái độc quyền (`IDLE`, `LOADING`, `SUCCESS`, `ERROR`).
+3. Xác định cơ chế chống Race Condition cho component `DataFeed` bằng token/counter.
+4. Thiết kế Skeleton Loader dạng pulse cho trạng thái `LOADING`.
+5. Đảm bảo chuẩn JavaScript thuần + JSDoc, không chuyển sang TypeScript.
+6. Ghi nhận trạng thái kiểm tra là `Not run` (chưa viết mã nguồn, chưa chạy test).
+7. Không tự ý commit mã nguồn.
+
+### File Thay Đổi
+
+| File | Thay đổi |
+| --- | --- |
+| `rule.md` | Giữ nội dung Ex2, thêm mục quy tắc riêng cho Exercise 3. |
+| `task-decomposition.md` | Giữ nội dung Ex2, thêm mục kế hoạch triển khai 4 phần cho Exercise 3. |
+| `prompt-log.md` | Giữ nội dung Ex2, thêm mục Ex3 chứa nguyên văn prompt và phân tích. |
+
+### Kết Quả Kiểm Tra
+
+- Trạng thái kiểm tra: **Not run** (Bước chuẩn bị tài liệu, chưa viết code ứng dụng).
+
+### Commit Liên Quan
+
+- Trạng thái: **Chưa tạo** (Tuân thủ quy tắc không tự ý commit).

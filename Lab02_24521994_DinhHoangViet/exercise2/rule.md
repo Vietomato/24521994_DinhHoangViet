@@ -38,3 +38,32 @@
 - Chưa có file project để đọc hoặc render engine để tái sử dụng.
 - `git status --short --branch` trả về exit code 128: `fatal: not a git repository (or any of the parent directories): .git`.
 - Chưa thể kiểm tra thay đổi Git, nhánh hay lịch sử. Trước milestone 1 cần có đúng thư mục project; chưa có căn cứ để triển khai code tại workspace này.
+
+
+---
+
+## Quy tắc riêng cho Exercise 3 (Resilient State Machine & Skeleton Loader)
+
+1. **4 Trạng thái độc quyền (4-State Finite Machine)**:
+   - State của component `DataFeed` chỉ có đúng 4 trạng thái: `IDLE`, `LOADING`, `SUCCESS`, `ERROR`.
+   - Không sử dụng cờ boolean phân tán (như `isLoading && isError`).
+   - Định nghĩa bằng object đóng băng tương đương enum:
+     ```javascript
+     export const DataState = Object.freeze({
+       IDLE: "IDLE",
+       LOADING: "LOADING",
+       SUCCESS: "SUCCESS",
+       ERROR: "ERROR"
+     });
+     ```
+2. **Hợp đồng giao diện 4 trạng thái (1:1 UI Mapping)**:
+   - `IDLE`: Hướng dẫn người dùng và cung cấp nút bấm bắt đầu tải dữ liệu.
+   - `LOADING`: Hiển thị khung xương (Skeleton Loader) có animation CSS dạng pulse, kích thước cố định để đạt Zero CLS.
+   - `SUCCESS`: Hiển thị danh sách dữ liệu thực tế bằng các thẻ ngữ nghĩa HTML5.
+   - `ERROR`: Hiển thị thông báo sự cố thân thiện và nút "Retry Connection".
+3. **Cơ chế chống Race Condition**:
+   - Sử dụng sequence counter `requestIdCounter` cho từng lượt request.
+   - Request cũ (về sau) tuyệt đối không được ghi đè lên request mới hơn.
+4. **Chuẩn ngôn ngữ**:
+   - Sử dụng JavaScript chuẩn với chú thích JSDoc (`@typedef`, `@param`, `@returns`).
+   - Không chuyển đổi toàn bộ project sang TypeScript.
